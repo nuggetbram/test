@@ -2311,7 +2311,7 @@ inline uint256 Hash9(const T1 pbegin, const T1 pend)
 
    //RADIOGATUN IS LUVV, RADIOGATUN IS LYFF
 
-	return hash[499].trim256();
+	return hash[6].trim256();
 }
 
 

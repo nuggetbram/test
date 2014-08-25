@@ -155,7 +155,7 @@ OBJS= \
     obj/keccak.o\
     obj/skein.o\
     obj/hamsi.o\
-    obj/fugue.o
+    obj/fugue.o \
 	obj/md2.o \
 	obj/md4.o \
 	obj/md5.o \
