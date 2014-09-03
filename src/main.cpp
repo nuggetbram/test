@@ -31,7 +31,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x000001a1fb87751750146eb9ad3b3757941dacc20d262457d9619a17b0d3e0d0"); //hgb
+uint256 hashGenesisBlock("0x0000025b455362f3fc98242e70a7b2ecc1eeb25bfdaf6e7a5f834281a065b9c3"); //hgb
 
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // marucoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
@@ -3031,9 +3031,9 @@ bool InitBlockIndex() {
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1408954400;
+        block.nTime    = 1408960000;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 729571;
+        block.nNonce   = 1528179;
         //bnnn
         if (fTestNet)
         {
@@ -3048,7 +3048,7 @@ bool InitBlockIndex() {
             hash = block.GetHash();
         }*/
 
-        if (true && block.GetHash() != hashGenesisBlock)
+        if (false && block.GetHash() != hashGenesisBlock)
                {
                    printf("Searching for genesis block...\n");
                    // This will figure out a valid hash and Nonce if you're
@@ -3084,7 +3084,7 @@ bool InitBlockIndex() {
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
-        assert(block.hashMerkleRoot == uint256("0x"));
+        assert(block.hashMerkleRoot == uint256("0x0097913b2ee00fc7042156026e11600e4eebe1ba0d70db75681888cafcc5b8a3"));
         //merklerootentry
         block.print();
         assert(hash == hashGenesisBlock);

@@ -1193,12 +1193,12 @@ void MapPort(bool)
 // The second name should resolve to a list of seed addresses.
 
 static const char *strMainNetDNSSeed[][2] = {
-    {"marucoin.com", "dnsseed.marucoin.com"}, //Seed node
+     //Seed node
     {NULL, NULL},
 };
 
 static const char *strTestNetDNSSeed[][2] = {
-    {"marucoin.com", "dnsseed.marucoin.com"},
+
     {NULL, NULL},
 };
 
