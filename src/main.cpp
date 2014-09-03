@@ -31,7 +31,7 @@ CTxMemPool mempool;
 unsigned int nTransactionsUpdated = 0;
 
 map<uint256, CBlockIndex*> mapBlockIndex;
-uint256 hashGenesisBlock("0x"); //hgb
+uint256 hashGenesisBlock("0x000001a1fb87751750146eb9ad3b3757941dacc20d262457d9619a17b0d3e0d0"); //hgb
 
 static CBigNum bnProofOfWorkLimit(~uint256(0) >> 20); // marucoin: starting difficulty is 1 / 2^12
 CBlockIndex* pindexGenesisBlock = NULL;
@@ -3018,7 +3018,7 @@ bool InitBlockIndex() {
         //   vMerkleTree: 97ddfbbae6
 
         // Genesis block        
-        const char* pszTimestamp = "Timestamp";
+        const char* pszTimestamp = "Timestamp..";
         CTransaction txNew;
         txNew.vin.resize(1);
         txNew.vout.resize(1);
@@ -3031,9 +3031,9 @@ bool InitBlockIndex() {
         block.hashPrevBlock = 0;
         block.hashMerkleRoot = block.BuildMerkleTree();
         block.nVersion = 1;
-        block.nTime    = 1408954390;
+        block.nTime    = 1408954400;
         block.nBits    = 0x1e0ffff0;
-        block.nNonce   = 0;
+        block.nNonce   = 729571;
         //bnnn
         if (fTestNet)
         {
@@ -3041,20 +3041,53 @@ bool InitBlockIndex() {
             block.nNonce   = 3866545592;
         }
 
-        //// debug print
+        /*//// debug print
         uint256 hash = block.GetHash();
         while (hash > bnProofOfWorkLimit.getuint256()){
             if (++block.nNonce==0) break;
             hash = block.GetHash();
-        }
+        }*/
 
+        if (true && block.GetHash() != hashGenesisBlock)
+               {
+                   printf("Searching for genesis block...\n");
+                   // This will figure out a valid hash and Nonce if you're
+                   // creating a different genesis block:
+                   uint256 hashTarget = CBigNum().SetCompact(block.nBits).getuint256();
+                   uint256 thash;
+
+                   while (true)
+                   {
+                       thash = block.GetHash();
+                       if (thash <= hashTarget)
+                           break;
+                       if ((block.nNonce & 0xFFF) == 0)
+                       {
+                           printf("nonce %08X: hash = %s (target = %s)\n", block.nNonce, thash.ToString().c_str(), hashTarget.ToString().c_str());
+                       }
+                       ++block.nNonce;
+                       if (block.nNonce == 0)
+                       {
+                           printf("NONCE WRAPPED, incrementing time\n");
+                           ++block.nTime;
+                       }
+                   }
+                   printf("block.nTime = %u \n", block.nTime);
+                   printf("block.nNonce = %u \n", block.nNonce);
+                   printf("block.nVersion = %u \n", block.nVersion);
+                   printf("block.GetHash = %s\n", block.GetHash().ToString().c_str());
+               }
+
+
+        //// debug print
+        uint256 hash = block.GetHash();
         printf("%s\n", hash.ToString().c_str());
         printf("%s\n", hashGenesisBlock.ToString().c_str());
         printf("%s\n", block.hashMerkleRoot.ToString().c_str());
+        assert(block.hashMerkleRoot == uint256("0x"));
+        //merklerootentry
         block.print();
-        assert(block.hashMerkleRoot == uint256("0x8eba14c6b9a7f58db46d9e765e7153320f9a30e0300f6a832c75feb0fd572afb"));
         assert(hash == hashGenesisBlock);
-
 
 
         // Start new block file
